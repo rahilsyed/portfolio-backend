@@ -9,7 +9,6 @@ import constants from '../helpers/constants'
 export const addUser = async (req: Request, res: Response) => {
     try {
         const { fullName, email, password, role } = req.body;
-        console.log(role)
         if (!fullName || !email || !password) {
             return notFoundResponse(res, 'Missing required Fields')
         }
