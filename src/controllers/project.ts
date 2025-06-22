@@ -63,14 +63,19 @@ export const deleteProject = async (req: Request, res: Response) => {
     }
 }
 
-export const getProjects = async (res: Response) => {
+export const getProjects = async (req:Request, res: Response) => {
     try {
-        const allProjects = await Project.find({ isDeleted: { $ne: true } }).limit(6).sort({ createdAt: -1 }).populate('createdBy', 'fullName');
-        return successResponse(res, 'all projects fetched', allProjects)
+        const allProjects = await Project.find({ isDeleted: { $ne: true } })
+            .limit(6)
+            .sort({ createdAt: -1 })
+            .populate('createdBy', 'fullName');
+
+        return successResponse(res, 'All projects fetched successfully', allProjects);
     } catch (error) {
-        return errorResponse(res, error.message);
+        console.error('Error fetching projects:', error);
+        return errorResponse(res, 'Failed to fetch projects');
     }
-}
+};
 export const getProject = async (req: Request, res: Response) => {
     try {
         const projectId = req.params.id;
