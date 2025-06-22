@@ -31,5 +31,5 @@ const projectSchema = new Schema<IProject>({
 },{timestamps:true})
 
 
-const Project = mongoose.model('project', projectSchema);
+const Project = mongoose.model<IProject>('project', projectSchema);
 export default Project;
