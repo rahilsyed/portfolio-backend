@@ -11,6 +11,11 @@ const blogSchema = new Schema<IBlogs>({
         required: true,
     },
     image: { type: String, required: true },
+    category: {
+        type: String,
+        enum: ['coding', 'fitness', 'lifestyle'],
+        required: true
+    },
     author: {
         type: Schema.Types.ObjectId,
         ref: 'user',

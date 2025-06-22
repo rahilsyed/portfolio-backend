@@ -7,6 +7,7 @@ export default interface IBlogs{
     title:String;
     description: String;
     image: String;
+    category:String;
     isDeleted: Boolean;
     author:ObjectId;
 }
