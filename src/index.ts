@@ -32,6 +32,11 @@ app.use((req:Request, res: Response, next: NextFunction)=>{
 });
 
 app.use('/api',apiRouter)
+
+app.get('/',(res:Response)=>{
+    res.send('Api working')
+}
+)
 app.listen(process.env.PORT || 4000,()=>{
 console.log("http://localhost:4000")
 })
