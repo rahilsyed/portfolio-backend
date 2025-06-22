@@ -1,8 +1,8 @@
  const info = (namespace: string, messege:string , object ? :any)=>{
     if(object){
         console.log(`${Date.now()}[INFO]  [${namespace}] [${messege}]`, object )
-    }
-        console.log(`${Date.now()}[INFO]  [${namespace}] [${messege}]` )
+    }else{console.log(`${Date.now()}[INFO]  [${namespace}] [${messege}]` )}
+        
 }
 
  const warn = (namespace: string, messege:string , object ? :any)=>{

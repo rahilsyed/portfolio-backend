@@ -9,8 +9,8 @@ import { UploadedFile } from "express-fileupload";
 
 export const addBlogs = async (req: Request, res: Response) => {
     try {
-        const { title, description } = req.body;
-        if (!title || !description) {
+        const { title, description, category } = req.body;
+        if (!title || !description || !category) {
             return validationError(res, 'Missing required fields');
         }
         const userId = utils.getUserId(req);
@@ -30,6 +30,7 @@ export const addBlogs = async (req: Request, res: Response) => {
         const post = new Blog({
             title,
             description,
+            category,
             image: uploadedImageUrl,
             author: userExists._id,
         });
