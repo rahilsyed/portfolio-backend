@@ -5,6 +5,7 @@ import fileUpload from 'express-fileupload';
 import logging from "./config/logging";
 import apiRouter from "./routes/apis";
 import cors from 'cors';
+const PORT = process.env.PORT ||4000;
 dotenv.config();
 const NAMESPACE: string = 'Server';
 const app = express();
@@ -20,7 +21,11 @@ app.use(fileUpload({
     abortOnLimit: true,
     responseOnLimit: 'File size must be 5mb or less',
 }));
-app.use(cors());
+app.use(cors({
+  origin: '*',
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+}));
+
 app.use((req: Request, res: Response, next: NextFunction) => {
     logging.info(NAMESPACE, `METHOD: [${req.method}] - URL [${req.url}] - IP: [${req.socket.remoteAddress}]]`);
     res.on('finish', () => {
@@ -39,6 +44,6 @@ app.get('/', (req: Request, res: Response) => {
     res.send('Api working')
 });
 
-app.listen(process.env.PORT || 4000, () => {
-    console.log("http://localhost:4000");
+app.listen(PORT, () => {
+    console.log(`http://localhost:${PORT}`);
 });

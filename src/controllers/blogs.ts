@@ -56,8 +56,7 @@ export const getBlogs = async(req:Request, res:Response)=>{
 }
 export const getBlog = async(req:Request, res:Response)=>{
     try {
-        const id = req.params.id
-        const post = await Blog.findById(id).populate('author', 'fullName');
+        const post = await Blog.findById(req.params.id).populate('author', 'fullName');
         if(!post){
             return notFoundResponse(res, 'Blog not found');
         }
