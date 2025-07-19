@@ -22,7 +22,9 @@ const getUserId = (req: Request)=>{
 
 const generateToken = (user:any)=>{
     const JwtPayload = user.toJSON();
-    let token = jwt.sign(JwtPayload, process.env.SECRET_KEY);
+    let token = jwt.sign(JwtPayload, process.env.SECRET_KEY,{
+      expiresIn:'14h',
+    });
     return token;
 }
 
