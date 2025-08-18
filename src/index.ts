@@ -40,10 +40,11 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 
 app.use('/api', apiRouter);
 
-app.get('/', (req: Request, res: Response) => {
-    res.send('Api working')
+app.get('/health', (req: Request, res: Response) => {
+    res.send('OK')
 });
 
 app.listen(PORT, () => {
     console.log(`http://localhost:${PORT}`);
+
 });
