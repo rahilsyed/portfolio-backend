@@ -41,7 +41,8 @@ app.use((req: Request, res: Response, next: NextFunction) => {
 app.use('/api', apiRouter);
 
 app.get('/health', (req: Request, res: Response) => {
-    res.send('OK')
+     logging.info(NAMESPACE, `METHOD: [${req.method}] - URL [${req.url}] - IP: [${req.socket.remoteAddress}]]`);
+    res.send('OK',)
 });
 
 app.listen(PORT, () => {
