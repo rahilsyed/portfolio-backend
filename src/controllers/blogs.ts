@@ -5,6 +5,7 @@ import User from "../models/user";
 import Blog from "../models/blog";
 import constants from '../helpers/constants'
 import { UploadedFile } from "express-fileupload";
+import logging from "../config/logging";
 
 
 export const addBlogs = async (req: Request, res: Response) => {
@@ -45,6 +46,7 @@ export const addBlogs = async (req: Request, res: Response) => {
 
 export const getBlogs = async(req:Request, res:Response)=>{
     try {
+        logging.info('get blogs called',`[req]:[${req.ip}]`)
         const posts = await Blog.find({isDeleted:{$ne:true}}).sort({createdAt:-1}).populate('author', 'fullName');
         if(!posts){
             return notFoundResponse(res, 'No Blogs Found');

@@ -7,6 +7,7 @@ import {
 import utils from '../helpers/utils';
 import User from '../models/user';
 import Service from '../models/services';
+import logging from '../config/logging';
 
 export const addServices = async (req: Request, res: Response) => {
   try {
@@ -29,6 +30,8 @@ export const addServices = async (req: Request, res: Response) => {
 
 export const getServices = async (req: Request, res: Response) => {
   try {
+    logging.info('get service called', `[req]:[${req.ip}]`)
+
     const allServices = await Service.find({ isDeleted: { $ne: true } })
       .limit(6)
       .sort({ createdAt: -1 });

@@ -5,6 +5,7 @@ import { errorResponse, successResponse, validationError } from "../helpers/api-
 import { UploadedFile } from 'express-fileupload'
 import Project from "../models/projects";
 import constants from '../helpers/constants'
+import logging from "../config/logging";
 export const addProject = async (req: Request, res: Response) => {
     try {
         const { projectName, projectDescription, link } = req.body;
@@ -21,9 +22,9 @@ export const addProject = async (req: Request, res: Response) => {
         }
         const image = req?.files.img as UploadedFile;
         let uploadedImgUrl = '';
-      if(image){
-        uploadedImgUrl= await utils.uploadToCloudinary(image.tempFilePath);
-      }
+        if (image) {
+            uploadedImgUrl = await utils.uploadToCloudinary(image.tempFilePath);
+        }
         const project = new Project({
             projectName,
             projectDescription,
@@ -63,8 +64,10 @@ export const deleteProject = async (req: Request, res: Response) => {
     }
 }
 
-export const getProjects = async (req:Request, res: Response) => {
+export const getProjects = async (req: Request, res: Response) => {
     try {
+        logging.info('get projects called', `[req]:[${req.ip}]`)
+
         const allProjects = await Project.find({ isDeleted: { $ne: true } })
             .limit(6)
             .sort({ createdAt: -1 })
