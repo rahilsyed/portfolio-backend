@@ -8,8 +8,6 @@ import mongoose from "mongoose";
 export const dashboardData = async (req: Request, res: Response) => {
     try {
         const userId = utils.getUserId(req);
-        const user = await User.findOne({ id: userId });
-
         if (!userId) {
             return validationError(res, 'userId not found')
         }
