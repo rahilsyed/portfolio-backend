@@ -56,6 +56,8 @@ app.use(async(req: Request, res:Response, next:NextFunction)=>{
             user,
             pwLength: pw.join(":").length,
             host: cred?.[2],
+            tail: uri.slice(uri.indexOf("@")).replace(/^@[^/?]*/, "@<host>"),
+            pwSha256: require("crypto").createHash("sha256").update(pw.join(":")).digest("hex").slice(0, 12),
             sha256: require("crypto").createHash("sha256").update(uri).digest("hex").slice(0, 12),
             env: process.env.VERCEL_ENV,
         };
