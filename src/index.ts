@@ -47,7 +47,19 @@ app.use(async(req: Request, res:Response, next:NextFunction)=>{
         logging.error("Database", "Connection unavailable", error);
 
         const reason = error instanceof Error ? error.message : String(error);
-        return errorResponse(res, `Database connection unavailable: ${reason}`)
+        // TEMP DEBUG: fingerprint of the MONGODB value (no password exposed)
+        const uri = process.env.MONGODB ?? "";
+        const cred = uri.match(/:\/\/([^@]*)@([^/?]*)/);
+        const [user = "", ...pw] = (cred?.[1] ?? "").split(":");
+        const fingerprint = {
+            length: uri.length,
+            user,
+            pwLength: pw.join(":").length,
+            host: cred?.[2],
+            sha256: require("crypto").createHash("sha256").update(uri).digest("hex").slice(0, 12),
+            env: process.env.VERCEL_ENV,
+        };
+        return errorResponse(res, `Database connection unavailable: ${reason} | ${JSON.stringify(fingerprint)}`)
     }
 
 })
