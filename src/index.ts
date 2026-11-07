@@ -46,7 +46,8 @@ app.use(async(req: Request, res:Response, next:NextFunction)=>{
     } catch (error) {
         logging.error("Database", "Connection unavailable", error);
 
-        return errorResponse(res, "Database connection unavailable")
+        const reason = error instanceof Error ? error.message : String(error);
+        return errorResponse(res, `Database connection unavailable: ${reason}`)
     }
 
 })
