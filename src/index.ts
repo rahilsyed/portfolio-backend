@@ -5,8 +5,9 @@ import fileUpload from 'express-fileupload';
 import logging from "./config/logging";
 import apiRouter from "./routes/apis";
 import cors from 'cors';
-const PORT = process.env.PORT ||4000;
+import { errorResponse } from "./helpers/api-responses";
 dotenv.config();
+const PORT = process.env.PORT ||4000;
 const NAMESPACE: string = 'Server';
 const app = express();
 connectToDb();
@@ -37,7 +38,18 @@ app.use((req: Request, res: Response, next: NextFunction) => {
     next();
 });
 
+app.use(async(req: Request, res:Response, next:NextFunction)=>{
+    try {
+        logging.info(NAMESPACE, `METHOD: [${req.method}]`)
+        await connectToDb();
+        next();
+    } catch (error) {
+        logging.error("Database", "Connection unavailable", error);
 
+        return errorResponse(res, "Database connection unavailable")
+    }
+
+})
 app.use('/api', apiRouter);
 
 app.get('/health', (req: Request, res: Response) => {
