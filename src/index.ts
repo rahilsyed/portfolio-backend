@@ -10,7 +10,7 @@ dotenv.config();
 const PORT = process.env.PORT ||4000;
 const NAMESPACE: string = 'Server';
 const app = express();
-connectToDb();
+
 
 
 app.use(express.json());
