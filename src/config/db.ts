@@ -1,7 +1,9 @@
 import mongoose from 'mongoose';
+import dns from 'node:dns';
 import dotenv from 'dotenv'
-dotenv.config()
 import logging from './logging';
+dotenv.config()
+dns.setServers(["8.8.8.8", "8.8.4.4"]);
 
 const NAMESPACE = 'Database';
 const mongo_URL = process.env.MONGODB
